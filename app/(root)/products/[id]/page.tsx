@@ -39,7 +39,7 @@ const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
                 <div >
                     <div className='flex gap-x-8 items-center' >
                         <h2 className='capitalize text-3xl font-bold'>{product.name}</h2>
-                        <FavoriteToggleButton productId={params.id} />
+                        <FavoriteToggleButton productId={id} />
                     </div>
                     <ProductRating productId={product.id} />
                     {/* <ShareButton name={product.name} productId={params.id} /> */}

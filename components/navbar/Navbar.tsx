@@ -11,9 +11,9 @@ function Navbar() {
     <div className='border-b'>
       <Container className='flex flex-col sm:flex-row sm:justify-between sm:items-center flex-wrap ' >
         <Logo/>
-        {/* <Suspense> */}
+        <Suspense fallback={<div className='w-full sm:w-auto h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse'/>}  >
         <NavSearch/>
-        {/* </Suspense> */}
+        </Suspense>
         <div className='flex gap-4 items-center'>
           <CartButton/>
           <DarkMode/>
