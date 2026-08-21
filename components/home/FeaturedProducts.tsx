@@ -1,5 +1,4 @@
-import { Section } from 'lucide-react'
-import React from 'react'
+
 import SectionTitle from '../global/SectionTitle'
 import ProductsGrid from '../prodcuts/ProductsGrid'
 import { fetchFeaturedProducts } from '@/utils/actions';
