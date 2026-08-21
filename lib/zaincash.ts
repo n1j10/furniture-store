@@ -24,9 +24,9 @@ function baseUrl() {
 }
 
 export function websiteUrl() {
-  const url = requiredEnv('NEXT_PUBLIC_WEBSITE_URL').replace(/\/$/, '');
+  const url = requiredEnv('WEBSITE_URL').replace(/\/$/, '');
   if (!/^https:\/\//.test(url)) {
-    throw new ZainCashError('NEXT_PUBLIC_WEBSITE_URL must be an HTTPS URL');
+    throw new ZainCashError('WEBSITE_URL must be an HTTPS URL');
   }
   return url;
 }
