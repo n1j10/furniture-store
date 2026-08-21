@@ -1,11 +1,15 @@
 import { Separator } from "@/components/ui/separator";
 import SidebarComponent from "./Sidebar";
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { userId } = await auth();
+  if (userId !== process.env.ADMIN_USER_ID) redirect('/');
   return (
     <main>
       <h2 >DashBoard</h2>

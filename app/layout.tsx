@@ -5,7 +5,7 @@ import Navbar from "@/components/navbar/Navbar";
 import { ThemeProvider } from "@/components/theme-provider"
 import Container from "@/components/global/Container";
 import { Toaster } from "@/components/ui/sonner";
-import { ClerkProvider  } from '@clerk/nextjs'
+import { ClerkProvider } from '@clerk/nextjs'
 
 export const metadata: Metadata = {
   title: "E store",
@@ -21,21 +21,21 @@ export default function BaseLayout({
     <html suppressHydrationWarning>
       <body>
         <ClerkProvider>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-                    <Navbar />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
 
-          <Container className="p-24">
-            {children}
+            <Container className="p-24">
+              {children}
 
-          </Container>
-          <Toaster />
+            </Container>
+            <Toaster />
 
-        </ThemeProvider>
+          </ThemeProvider>
         </ClerkProvider>
 
 

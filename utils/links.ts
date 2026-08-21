@@ -11,7 +11,8 @@ export const dropDownMenuLinks: NavBarLinks[] = [
   { href: '/cart', name: 'cart' },
   { href: '/orders', name: 'orders' },
   { href: '/admin/sales', name: 'dashboard' },
-  // { href: '/reviews', label: 'reviews' },
+  { href: '/reviews', name: 'reviews' },
+
 
 ];
 

@@ -1,5 +1,6 @@
 import * as zod from "zod";
 
+//Input form Schema
 export const productSchema = zod.object({
 
     name: zod.string().min(4,
@@ -31,6 +32,9 @@ export const productSchema = zod.object({
 
     featured: zod.coerce.boolean().default(false),
 })
+
+//## validation of form data input
+
 //T = Generic        Generic means input dynamic user can type string or number or any others types
 export function validateFuctionSchema<T>(schema: zod.ZodSchema<T>, data: unknown): T {
     // export function validateFuctionSchema(schema:any, data: unknown) { method 222
@@ -57,12 +61,34 @@ function validateImageFile() {
     return zod.instanceof(File).refine((file) => {
         return !file || file.size <= imageSize
     }, 'File size must be less than 1 MB')
-    
+
         .refine((file) => { //refine means custom validation
             return !file || acceptedFileType.some((type) => file.type.startsWith(type));
         }, 'File  must be an image')
 }
-
+//imageSchema
 export const imageSchema = zod.object({
     image: validateImageFile()
+})
+
+
+//Review
+export const reviewSchema = zod.object({
+    rating: zod.coerce.number()
+        .min(1, 'Rating must be at least 1')
+        .max(5, 'Rating must be at most 5'),
+
+    comment: zod.string()
+        .min(10, 'Comment must be at least 10 characters long')
+        .max(100, 'Comment must be at most 100 characters long'),
+
+    productId: zod.string().refine((value) => value !== '', {
+        message: "Product Id cannot be empty"
+    }),
+    authorName: zod.string().refine((value) => value !== '', {
+        message: "Author name cannot be empty"
+    }),
+    authorImageUrl: zod.string().refine((value) => value !== '', {
+        message: "Author image URL cannot be empty"
+    }),
 })

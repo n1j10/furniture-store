@@ -5,8 +5,12 @@ import NavSearch from './NavSearch'
 import CartButton from './CartButton'
 import DarkMode from './DarkMode'
 import LinksDropdown from './LinksDropdown'
+import { auth } from '@clerk/nextjs/server'
 
-function Navbar() {
+async function Navbar() {
+  const { userId } = await auth();
+  const isAdmin = userId === process.env.ADMIN_USER_ID;
+
   return (
     <div className='border-b'>
       <Container className='flex flex-col sm:flex-row sm:justify-between sm:items-center flex-wrap ' >
@@ -17,7 +21,7 @@ function Navbar() {
         <div className='flex gap-4 items-center'>
           <CartButton/>
           <DarkMode/>
-          <LinksDropdown/>
+          <LinksDropdown isAdmin={isAdmin} />
 
         </div>
       </Container>

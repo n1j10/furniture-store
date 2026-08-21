@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useFormStatus } from "react-dom";
 import { VscLoading } from "react-icons/vsc";
+import { SignInButton } from "@clerk/nextjs";
 
 
 type btnSize = 'default' | 'lg' | 'sm';
@@ -37,3 +38,15 @@ export function SubmitButton({ className = '', text = 'submit', size = 'lg', }: 
 
 
 export default SubmitButton 
+
+
+
+export const ProductSignInButton = () => {
+  return (
+    <SignInButton mode='modal'>
+      <Button type='button' className='mt-8 capitalize'>
+        sign in
+      </Button>
+    </SignInButton>
+  );
+};

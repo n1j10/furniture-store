@@ -8,15 +8,12 @@ import Link from 'next/link';;
 import { dropDownMenuLinks } from '@/utils/links';
 import { Button } from '@/components/ui/button';
 import { LuAlignLeft } from 'react-icons/lu';
-// import SignOutLink from './SignOutLink';
-import { SignInButton, SignOutButton, SignUpButton, useAuth, auth } from "@clerk/nextjs";
+import { SignInButton, SignOutButton, SignUpButton, useAuth } from "@clerk/nextjs";
 
-function LinksDropdown() {
+function LinksDropdown({ isAdmin = false }: { isAdmin?: boolean }) {
 
   const { userId } = useAuth();
   const isSignedIn = !!userId;
-
-  const isAdmin = userId === process.env.ADMIN_USER_ID;
 
   return (
     <div className="flex gap-4">

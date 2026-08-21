@@ -14,9 +14,7 @@ const ProductsPage = async ({ searchParams }: ProductsPageProps) => { //if there
     const {layout='grid'} = await searchParams || {};    //='grid' means default value
     const {search} = await searchParams;
     // const search = searchParams.search || '';
-
     // console.log(search,"test search")
-    // console.log(layout)
     return (
         <ProductsContainer layout={layout} search={search}/>
     )

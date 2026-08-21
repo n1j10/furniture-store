@@ -26,11 +26,6 @@ function BreadCrumb({name}:{name:string}) {
     <BreadcrumbSeparator />
 
 
-
-
-
-
-
     <BreadcrumbItem>
       <BreadcrumbPage className='capitalize text-lg'>{name}</BreadcrumbPage>
     </BreadcrumbItem>
