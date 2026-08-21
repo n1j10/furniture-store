@@ -18,7 +18,7 @@ function Hero() {
         <p className='mt-8 max-w-xl text-lg leading-8 text-muted-foreground'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus
           maxime laboriosam, deserunt velit qui quia? Dolor dolores esse
-          corporis. Dolores.
+          corporis. Dolores
         </p>
 
 
