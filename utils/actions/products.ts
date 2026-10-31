@@ -1,11 +1,11 @@
-﻿"use server";
+"use server";
 import { redirect } from "next/navigation";
 import db from "../db";
 import { imageSchema, productSchema, validateFuctionSchema } from "../schema";
 import { deleteImage, uploadImage } from "../supabase";
 import { revalidatePath } from "next/cache";
 import { links } from "../links";
-import { getAuthUser, getAdminUser } from "./user";
+import { getAdminUser } from "./user";
 import { renderError } from "./global";
 
 export const fetchFeaturedProducts = async () => {
@@ -42,7 +42,7 @@ export async function createProductAction(
   prevState: any,
   formData: FormData,
 ): Promise<{ message: string }> {
-  const user = await getAuthUser();
+  const user = await getAdminUser();
   try {
     const rowData = Object.fromEntries(formData);
     const fileImage = formData.get("image") as File;
@@ -85,14 +85,16 @@ export const updateProductAction = async (prevState: any, formData: FormData) =>
 };
 
 export const updateProductImageAction = async (prevState: any, formData: FormData) => {
-  await getAuthUser();
+  await getAdminUser();
   try {
     const image = formData.get("image") as File;
     const productId = formData.get("id") as string;
-    const oldImageUrl = formData.get("url") as string;
     const validateImageFile = validateFuctionSchema(imageSchema, { image });
+    // Never trust the old image URL from the client: read it from the DB.
+    const existing = await db.product.findUnique({ where: { id: productId }, select: { image: true } });
+    if (!existing) throw new Error("Product not found");
     const fullImagePath = await uploadImage(validateImageFile.image);
-    await deleteImage(oldImageUrl);
+    await deleteImage(existing.image);
     await db.product.update({ where: { id: productId }, data: { image: fullImagePath } });
     revalidatePath(`${links.AdminProducts.href}/${productId}/edit`);
     return { message: "Image updated successfully" };
@@ -102,8 +104,7 @@ export const updateProductImageAction = async (prevState: any, formData: FormDat
 };
 
 export const fetchAdminPosts = async () => {
-  await getAdminUser();
-  const user = await getAuthUser();
+  const user = await getAdminUser();
   const products = await db.product.findMany({
     where: { clerkId: user.id },
     orderBy: { createdAt: "desc" },

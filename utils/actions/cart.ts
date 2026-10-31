@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 import { redirect } from "next/navigation";
 import db from "../db";
 import { auth } from "@clerk/nextjs/server";
@@ -7,6 +7,7 @@ import { Cart } from "@/utils/type";
 import { getAuthUser } from "./user";
 import { renderError } from "./global";
 import { fetchSingleProduct } from "./products";
+import { cartAmountSchema, validateFuctionSchema } from "../schema";
 
 // ================= Cart Actions =================
 
@@ -64,7 +65,7 @@ const updateOrCreateCartItem = async ({
   if (cartItem) {
     cartItem = await db.cartItem.update({
       where: { id: cartItem.id },
-      data: { amount: cartItem.amount + amount },
+      data: { amount: Math.min(cartItem.amount + amount, 100) },
     });
   } else {
     cartItem = await db.cartItem.create({
@@ -101,7 +102,7 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
   const user = await getAuthUser();
   try {
     const productId = formData.get("productId") as string;
-    const amount = Number(formData.get("amount"));
+    const amount = validateFuctionSchema(cartAmountSchema, formData.get("amount"));
     await fetchSingleProduct(productId);
     const cart = await fetchOrCreateCart({ userId: user.id });
     await updateOrCreateCartItem({ productId, cartId: cart.id, amount });
@@ -149,7 +150,7 @@ export const updateCartItemAction = async ({
     });
     await db.cartItem.update({
       where: { id: cartItemId, cartId: cart.id },
-      data: { amount },
+      data: { amount: validateFuctionSchema(cartAmountSchema, amount) },
     });
     await updateCart(cart);
     revalidatePath("/cart");

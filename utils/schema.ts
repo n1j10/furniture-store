@@ -92,3 +92,7 @@ export const reviewSchema = zod.object({
         message: "Author image URL cannot be empty"
     }),
 })
+
+
+//Cart quantity: positive integer with an upper bound (blocks negative-price attacks)
+export const cartAmountSchema = zod.coerce.number().int().min(1, 'Amount must be at least 1').max(100, 'Amount must be at most 100')
