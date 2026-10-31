@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 import db from "../db";
 import { reviewSchema } from "../schema";
 import { revalidatePath } from "next/cache";
@@ -15,7 +15,13 @@ export const creatReviewAction = async (prevState: any, formData: FormData) => {
       return { message: "Error" + errors?.join(",") };
     }
     await db.review.create({
-      data: { ...validatedFields.data, clerkId: user.id },
+      data: {
+        ...validatedFields.data,
+        // Author identity comes from the session, never from the form.
+        authorName: [user.firstName, user.lastName].filter(Boolean).join(" ") || "Customer",
+        authorImageUrl: user.imageUrl,
+        clerkId: user.id,
+      },
     });
     revalidatePath(`/products/${validatedFields.data.productId}`);
     return { message: "review submitted successfully" };
